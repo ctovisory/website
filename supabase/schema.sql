@@ -54,3 +54,9 @@ on conflict (slug) do nothing;
 insert into public.comments (slug, author_name, body, created_at)
 select 's-p500-sectors-market-cap-analysis', 'Justina Simanaviciute', 'Interesting, thank you for sharing!', '2024-03-10T12:00:00Z'
 where not exists (select 1 from public.comments where slug = 's-p500-sectors-market-cap-analysis' and author_name = 'Justina Simanaviciute');
+
+-- This project does not grant table access to API roles by default; the server uses service_role.
+grant usage on schema public to service_role;
+grant select, insert, update, delete on table public.post_stats to service_role;
+grant select, insert, update, delete on table public.comments to service_role;
+grant usage, select on sequence public.comments_id_seq to service_role;
