@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { Container } from "@/components/sections";
 import { PostMetaInline } from "@/components/post-meta";
+import { CommentsSection, PostStatsFallback, PostStatsRow } from "@/components/post-engagement";
+import { ViewTracker } from "@/components/engagement";
 import { ShareButtons } from "@/components/share-buttons";
 import { formatDate, getPost, posts } from "@/lib/posts";
 import { site } from "@/lib/site";
@@ -45,6 +48,12 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
         <div className="mt-12 border-t border-neutral-300 pt-8">
           <ShareButtons url={`${site.url}/blog/${slug}`} title={post.title} />
         </div>
+        <div className="mt-8 border-t border-neutral-300 pt-6">
+          <Suspense fallback={<PostStatsFallback />}>
+            <PostStatsRow slug={slug} />
+          </Suspense>
+        </div>
+        <ViewTracker slug={slug} />
       </article>
 
       <aside className="mt-12">
@@ -67,6 +76,12 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
           ))}
         </ul>
       </aside>
+
+      <section className="mt-12 border border-neutral-300 bg-white px-5 py-10 md:px-24 md:py-16">
+        <Suspense fallback={<h2 className="font-serif text-2xl text-ink">Comments</h2>}>
+          <CommentsSection slug={slug} />
+        </Suspense>
+      </section>
     </Container>
   );
 }

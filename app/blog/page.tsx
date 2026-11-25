@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Container } from "@/components/sections";
 import { PostMeta } from "@/components/post-meta";
+import { PostStatsFallback, PostStatsRow } from "@/components/post-engagement";
 import { posts } from "@/lib/posts";
 
 export const metadata: Metadata = {
@@ -28,6 +30,11 @@ export default function BlogPage() {
                 </Link>
               </h2>
               <p className="mt-4 text-lg leading-relaxed text-body">{post.excerpt}</p>
+              <div className="mt-auto border-t border-neutral-300 pt-4">
+                <Suspense fallback={<PostStatsFallback />}>
+                  <PostStatsRow slug={post.slug} />
+                </Suspense>
+              </div>
             </div>
           </article>
         ))}
