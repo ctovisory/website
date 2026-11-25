@@ -1,26 +1,29 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@theme {
+  --color-brand: #d14a4b;
+  --color-brand-dark: #b83c3d;
+  --color-ink: #444444;
+  --color-body: #6f6f6f;
+  --color-paper: #fcfcfc;
+  --color-band: #474747;
+  --color-gridline: #f1f1f1;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-serif: var(--font-libre-baskerville), Georgia, serif;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-weight: 300;
+}
+
+/* Faint vertical column lines behind the content, as on the original site. */
+.grid-lines {
+  background-image: linear-gradient(to right, var(--color-gridline) 1px, transparent 1px);
+  background-size: calc(100% / 5) 100%;
+  border-right: 1px solid var(--color-gridline);
 }

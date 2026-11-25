@@ -1,10 +1,12 @@
 import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  pageExtensions: ["ts", "tsx", "md", "mdx"],
   turbopack: {
+    root: __dirname,
     rules: {
       "*.css": {
         loaders: ["@tailwindcss/turbopack"],
@@ -12,6 +14,16 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  // Keep old Wix URLs working after the domain moves over.
+  async redirects() {
+    return [
+      { source: "/ctovisory", destination: "/", permanent: true },
+      { source: "/post/:slug", destination: "/blog/:slug", permanent: true },
+      { source: "/copy-of-privacy-policy", destination: "/terms", permanent: true },
+    ];
+  },
 };
 
-export default nextConfig;
+const withMDX = createMDX({});
+
+export default withMDX(nextConfig);
